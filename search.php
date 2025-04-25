@@ -22,6 +22,7 @@ function getPokemonDetails($url) {
 }
 
 $query = isset($_GET['q']) ? strtolower(trim($_GET['q'])) : '';
+$type = isset($_GET['type']) ? strtolower(trim($_GET['type'])) : '';
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $limit = 24;
 $offset = ($page - 1) * $limit;
@@ -31,14 +32,14 @@ $typeNames = array_column($typeList['results'], 'name');
 
 $results = [];
 
-if (!$query) {
+if (!$query && !$type) {
     echo "Veuillez entrer un nom ou un type de Pokémon.";
     exit;
 }
 
-if (in_array($query, $typeNames)) {
-    // 🔍 Recherche par type uniquement
-    $url = "https://pokeapi.co/api/v2/type/{$query}";
+if ($type && in_array($type, $typeNames)) {
+    // 🔍 Recherche par type
+    $url = "https://pokeapi.co/api/v2/type/{$type}";
     $typeData = fetchJSON($url);
 
     if ($typeData && isset($typeData['pokemon'])) {
@@ -53,7 +54,7 @@ if (in_array($query, $typeNames)) {
         $totalPages = ceil($totalResults / $limit);
     }
 } else {
-    // 🔍 Recherche par nom uniquement
+    // 🔍 Recherche par nom
     $allPokemon = getAllPokemon();
     $matchingPokemon = array_filter($allPokemon, fn($pokemon) => strpos($pokemon['name'], $query) !== false);
     $totalResults = count($matchingPokemon);
@@ -77,16 +78,17 @@ if (in_array($query, $typeNames)) {
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-<body>
 <!-- Loader -->
 <div id="loader">
     <div class="spinner"></div>
 </div>
+
 <?php include 'navbar.php'; ?>
+
 <main>
     <div class="list_card">
         <?php if (empty($results)): ?>
-            <p>Aucun résultat trouvé pour "<?php echo htmlspecialchars($query); ?>".</p>
+            <p>Aucun résultat trouvé pour "<?php echo htmlspecialchars($query ?: $type); ?>".</p>
         <?php else: ?>
             <?php foreach ($results as $pokemon): ?>
                 <div class="card">
@@ -99,44 +101,43 @@ if (in_array($query, $typeNames)) {
         <?php endif; ?>
     </div>
 
-    <?php if ($totalPages > 1): ?>
+    <?php if (!empty($results) && $totalPages > 1): ?>
         <div class="section_btn" style="margin-bottom:20px;">
             <?php if ($page > 1): ?>
-                <a href="?q=<?php echo urlencode($query); ?>&page=<?php echo $page - 1; ?>"><button>Back</button></a>
+                <a href="?<?php echo $type ? "type=$type" : "q=$query"; ?>&page=<?php echo $page - 1; ?>"><button>Back</button></a>
             <?php endif; ?>
             <h4>Page <?php echo $page; ?> / <?php echo $totalPages; ?></h4>
             <?php if ($page < $totalPages): ?>
-                <a href="?q=<?php echo urlencode($query); ?>&page=<?php echo $page + 1; ?>"><button>Next</button></a>
+                <a href="?<?php echo $type ? "type=$type" : "q=$query"; ?>&page=<?php echo $page + 1; ?>"><button>Next</button></a>
             <?php endif; ?>
         </div>
     <?php endif; ?>
 </main>
+
 <script>
     const form = document.querySelector(".search-bar");
     const loader = document.getElementById("loader");
 
-    // Afficher le loader quand on soumet le formulaire de recherche
+    // Afficher le loader lors de la soumission du formulaire
     form.addEventListener("submit", () => {
         loader.style.display = "flex";
     });
 
-    // Afficher le loader quand on clique sur un type
-    const typeLinks = document.querySelectorAll('.navbar .links a'); 
-
+    // Afficher le loader pour les liens de type
+    const typeLinks = document.querySelectorAll('.navbar .links a');
     typeLinks.forEach(link => {
-        link.addEventListener('click', (event) => {
-            loader.style.display = "flex"; // Afficher le loader
-
-            setTimeout(() => {
-            }, 100);
+        link.addEventListener('click', () => {
+            loader.style.display = "flex";
         });
     });
 
+    // Masquer le loader une fois la page chargée
     window.addEventListener("load", () => {
         loader.style.display = "none";
     });
 </script>
 </body>
 </html>
+
 
 

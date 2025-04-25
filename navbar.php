@@ -11,7 +11,7 @@
     <?php
     $types = json_decode(file_get_contents('https://pokeapi.co/api/v2/type'), true);
     foreach ($types['results'] as $type) {
-        echo '<a style="margin-top:5px; margin-bottom:5px;" href="search.php?type1=' . $type['name'] . '">' . ucfirst($type['name']) . '</a>';
+        echo '<a style="margin-top:5px; margin-bottom:5px;" href="search.php?type=' . $type['name'] . '">' . ucfirst($type['name']) . '</a>';
     }
     ?>
   </div>

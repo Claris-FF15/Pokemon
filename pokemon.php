@@ -160,18 +160,6 @@ $evolutions = getEvolutions($evolutionData['chain']);
             </div>
         <?php endforeach; ?>
     </div>
-
-    <div style="margin-top:10px;">
-        <?php if ($lang === 'en'): ?>
-            <a href="?id=<?= $id ?>&lang=fr">
-                <button style="background-color: #ffcb05; color: #2a75bb;">🇫🇷 Voir en français</button>
-            </a>
-        <?php else: ?>
-            <a href="?id=<?= $id ?>&lang=en">
-                <button style="background-color: #2a75bb; color: white;">🇬🇧 View in English</button>
-            </a>
-        <?php endif; ?>
-    </div>
     </main>
 </body>
 </html>
