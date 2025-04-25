@@ -73,85 +73,8 @@ if (in_array($query, $typeNames)) {
 <head>
     <meta charset="UTF-8">
     <title>Résultats de recherche</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_v2.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #d62828;
-            color: white;
-        }
-
-        .navbar {
-            background-color: #ef233c;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-            margin-bottom: 40px;
-        }
-
-        .navbar .logo a {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 16px;
-            color: #fefae0;
-            text-decoration: none;
-            text-shadow: 2px 2px #000;
-        }
-
-        .navbar .links a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
-        }
-
-        .navbar .links a:hover {
-            text-decoration: underline;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-        }
-
-        .search-bar input {
-            padding: 6px 10px;
-            border-radius: 6px 0 0 6px;
-            border: none;
-            outline: none;
-            width: 200px;
-        }
-
-        .search-bar button {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 0 6px 6px 0;
-            background-color: #003049;
-            color: white;
-            cursor: pointer;
-        }
-
-        .search-bar button:hover {
-            background-color: #001219;
-        }
-        .type-select-form select {
-        padding: 6px;
-        border-radius: 6px;
-        border: none;
-        background-color: #003049;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-        }
-        .card img {
-    position: relative;
-    filter: drop-shadow(0px 10px 15px rgba(255, 255, 255, 0.6));
-} 
-
-    </style>
 </head>
 <body>
 <body>
@@ -159,30 +82,7 @@ if (in_array($query, $typeNames)) {
 <div id="loader">
     <div class="spinner"></div>
 </div>
-<header>
-        <div class="navbar">
-            <div class="logo"><a href="all.php?page=1">Pokédex</a></div>
-            <div class="links" style="display:flex;">
-            <form action="search.php" method="GET" class="type-select-form">
-                <select name="q" onchange="this.form.submit()">
-                    <option value="">-- Types --</option>
-                        <?php
-                        // Appel à l'API pour récupérer les types
-                        $types = json_decode(file_get_contents('https://pokeapi.co/api/v2/type'), true);
-                        foreach ($types['results'] as $type) {
-                            echo '<option value="' . $type['name'] . '">' . ucfirst($type['name']) . '</option>';
-                        }
-                        ?>
-                </select>
-            </form>
-                <a href="categories.php" style="padding-left: 15px;">Catégories</a>
-            </div>
-            <form class="search-bar" action="search.php" method="GET">
-                <input type="text" name="q" placeholder="Rechercher un Pokémon...">
-                <button type="submit">🔍</button>
-            </form>
-        </div>
-    </header>
+<?php include 'navbar.php'; ?>
 <main>
     <div class="list_card">
         <?php if (empty($results)): ?>
@@ -193,7 +93,6 @@ if (in_array($query, $typeNames)) {
                     <a class="page" href="pokemon.php?id=<?php echo $pokemon['id']; ?>">
                         <img src="<?php echo $pokemon['image']; ?>" alt="<?php echo $pokemon['name']; ?>"><br>
                         <?php echo $pokemon['name']; ?><br>
-                        <span>Types : <?php echo implode(", ", $pokemon['types']); ?></span>
                     </a>
                 </div>
             <?php endforeach; ?>
@@ -205,7 +104,7 @@ if (in_array($query, $typeNames)) {
             <?php if ($page > 1): ?>
                 <a href="?q=<?php echo urlencode($query); ?>&page=<?php echo $page - 1; ?>"><button>Back</button></a>
             <?php endif; ?>
-            <span>Page <?php echo $page; ?> / <?php echo $totalPages; ?></span>
+            <h4>Page <?php echo $page; ?> / <?php echo $totalPages; ?></h4>
             <?php if ($page < $totalPages): ?>
                 <a href="?q=<?php echo urlencode($query); ?>&page=<?php echo $page + 1; ?>"><button>Next</button></a>
             <?php endif; ?>
@@ -237,8 +136,6 @@ if (in_array($query, $typeNames)) {
         loader.style.display = "none";
     });
 </script>
-
-
 </body>
 </html>
 

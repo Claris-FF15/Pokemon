@@ -117,7 +117,7 @@ $evolutions = getEvolutions($evolutionData['chain']);
             <a href='all.php?page=1'><button style="margin-top: 20px;color: white;background-color: red;">Back to Pokédex</button></a>
         </div>
     </header>
-    <main></main>
+    <main>
     <div class="card" style="height: auto;width: 500px;">
         <h1>#<?= $id ?> - <?= ucfirst($name) ?></h1>
         <img src="<?= $image ?>" alt="<?= $name ?>" width="200">
