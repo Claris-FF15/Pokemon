@@ -65,6 +65,7 @@ $evolutions = getEvolutions($evolutionData['chain']);
 <head>
     <meta charset="UTF-8">
     <title>Pokémon: <?= $name ?></title>
+    <link rel="icon" href="icon.png" type="image/png">
     <style>
         body {
             background-image:url("back.png");
@@ -90,17 +91,24 @@ $evolutions = getEvolutions($evolutionData['chain']);
             align-items: center;
             gap: 5px;
         }
-        .evo-chain {
+        .evo-chain ,.shiny-chain {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
             margin-top: 30px;
         }
-        .evo-card {
+        .evo-card,.shiny-card {
             background-color: rgba(8, 0, 0, 0.74);
             padding: 10px;
             border-radius: 12px;
+        }
+        .shiny-card{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100px;
+            height: 150px;
         }
         button {
             padding: 8px 16px;
@@ -172,6 +180,13 @@ $evolutions = getEvolutions($evolutionData['chain']);
             </div>
         <?php endforeach; ?>
     </div>
-                    </main>
+    <h2>Shiny</h2>
+    <div class="shiny-chain">
+    <div class="shiny-card">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/<?= $id ?>.png" alt="<?= $name ?> Shiny" width="200">
+        <p><?= ucfirst($name) ?></p>
+    </div>
+    </div>
+</main>
 </body>
 </html>

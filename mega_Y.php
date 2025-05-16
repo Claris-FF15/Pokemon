@@ -45,6 +45,7 @@ $totalPages = ceil($totalResults / $limit);
 <head>
     <meta charset="UTF-8">
     <title>Pokémon Méga Y</title>
+     <link rel="icon" href="icon.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style_v2.css">
     <style>

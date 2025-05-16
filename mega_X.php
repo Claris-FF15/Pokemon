@@ -46,6 +46,7 @@ $totalPages = ceil($totalResults / $limit);
     <meta charset="UTF-8">
     <title>Pokémon Méga X</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+     <link rel="icon" href="icon.png" type="image/png">
     <link rel="stylesheet" href="style_v2.css">
     <style>
         /* Grille pour la liste des cartes */

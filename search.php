@@ -74,6 +74,7 @@ if ($type && in_array($type, $typeNames)) {
 <head>
     <meta charset="UTF-8">
     <title>Résultats de recherche</title>
+     <link rel="icon" href="icon.png" type="image/png">
     <link rel="stylesheet" href="style_v2.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
