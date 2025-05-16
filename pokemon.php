@@ -117,10 +117,22 @@ $evolutions = getEvolutions($evolutionData['chain']);
             <a href='all.php?page=1'><button style="margin-top: 20px;color: white;background-color: red;">Back to Pokédex</button></a>
         </div>
     </header>
-    <main>
+    <main〜>
     <div class="card" style="height: auto;width: 500px;">
-        <h1>#<?= $id ?> - <?= ucfirst($name) ?></h1>
+        <h1>N°<?= $id ?> - <?= ucfirst($name) ?></h1>
         <img src="<?= $image ?>" alt="<?= $name ?>" width="200">
+<div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+    <?php if ($id > 1): ?>
+        <a href="pokemon.php?id=<?= $id - 1 ?>&lang=<?= $lang ?>">
+            <button style="background-color: crimson; color: white;">← Back</button>
+        </a>
+    <?php endif; ?>
+
+    <a href="pokemon.php?id=<?= $id + 1 ?>&lang=<?= $lang ?>">
+        <button style="background-color: royalblue; color: white;">Next →</button>
+    </a>
+</div>
+
         <p><strong>Types :</strong> <?= implode(", ", $types) ?></p>
         <p><strong>height :</strong> <?= $pokemon['height'] / 10 ?> m</p>
         <p><strong>weight :</strong> <?= $pokemon['weight'] / 10 ?> kg</p>
@@ -160,6 +172,6 @@ $evolutions = getEvolutions($evolutionData['chain']);
             </div>
         <?php endforeach; ?>
     </div>
-    </main>
+                    </main>
 </body>
 </html>

@@ -18,6 +18,7 @@ $next = $page + 1;
     <title>Pokédex</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style_v2.css">
+    <link rel="icon" href="icon.png" type="image/png">
 </head>
 <body>
     <?php include 'navbar.php';?>
