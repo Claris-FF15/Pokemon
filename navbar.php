@@ -27,7 +27,7 @@
         </div>
         <!-- Barre de recherche -->
         <form class="search-bar" action="search.php" method="GET">
-            <input type="text" name="q" placeholder="Rechercher un Pokémon...">
+            <input type="text" name="q" placeholder="Rechercher un Pokémon..." autocomplete="off">
             <button type="submit">🔍</button>
         </form>
     </div>

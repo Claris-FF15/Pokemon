@@ -31,14 +31,11 @@ $typeList = fetchJSON('https://pokeapi.co/api/v2/type');
 $typeNames = array_column($typeList['results'], 'name');
 
 $results = [];
+$error = '';
 
 if (!$query && !$type) {
-    echo "Veuillez entrer un nom ou un type de Pokémon.";
-    exit;
-}
-
-if ($type && in_array($type, $typeNames)) {
-    // 🔍 Recherche par type
+    $error = "Veuillez entrer un nom ou un type de Pokémon.";
+} elseif ($type && in_array($type, $typeNames)) {
     $url = "https://pokeapi.co/api/v2/type/{$type}";
     $typeData = fetchJSON($url);
 
@@ -54,7 +51,6 @@ if ($type && in_array($type, $typeNames)) {
         $totalPages = ceil($totalResults / $limit);
     }
 } else {
-    // 🔍 Recherche par nom
     $allPokemon = getAllPokemon();
     $matchingPokemon = array_filter($allPokemon, fn($pokemon) => strpos($pokemon['name'], $query) !== false);
     $totalResults = count($matchingPokemon);
@@ -74,29 +70,58 @@ if ($type && in_array($type, $typeNames)) {
 <head>
     <meta charset="UTF-8">
     <title>Résultats de recherche</title>
-     <link rel="icon" href="icon.png" type="image/png">
+    <link rel="icon" href="icon.png" type="image/png">
     <link rel="stylesheet" href="style_v2.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- Loader -->
 <div id="loader" style="display: none;">
     <img src="loader.gif" alt="Chargement..." style="width: 100px;">
 </div>
 
-
-<?php include 'navbar.php'; ?>
+<header>
+    <div class="navbar">
+        <div class="logo"><a href="all.php?page=1">Pokédex</a></div>
+        <div class="links" style="display:flex; gap: 15px;">
+            <div class="dropdown">
+                <button class="dropbtn" style="font-size:13px !important;font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Types  ▼</button>
+                <div class="dropdown-content">
+                    <?php
+                    foreach ($typeList['results'] as $typeItem) {
+                        echo '<a data-loader="true" style="margin-top:5px; margin-bottom:5px;" href="search.php?type=' . $typeItem['name'] . '">' . ucfirst($typeItem['name']) . '</a>';
+                    }
+                    ?>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn" style="font-size:13px !important;font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Catégories  ▼</button>
+                <div class="dropdown-content">
+                    <a data-loader="true" style="margin-top:5px; margin-bottom:5px;" href="shiny.php">Shiny</a>
+                    <a data-loader="true" style="margin-top:5px; margin-bottom:5px;" href="mega.php">Méga-Évolutions</a>
+                    <a data-loader="true" style="margin-top:5px; margin-bottom:5px;" href="mega_X.php">Méga X</a>
+                    <a data-loader="true" style="margin-top:5px; margin-bottom:5px;" href="mega_Y.php">Méga Y</a>
+                </div>
+            </div>
+        </div>
+        <form class="search-bar" action="search.php" method="GET">
+            <input type="text" name="q" placeholder="Rechercher un Pokémon..." autocomplete="off">
+            <button type="submit">🔍</button>
+        </form>
+    </div>
+</header>
 
 <main>
     <div class="list_card">
-        <?php if (empty($results)): ?>
-            <p style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Aucun résultat trouvé pour "<?php echo htmlspecialchars($query ?: $type); ?>".</p>
+        <?php if ($error): ?>
+            <p style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;"><?= $error ?></p>
+        <?php elseif (empty($results)): ?>
+            <p style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Aucun résultat trouvé pour "<?= htmlspecialchars($query ?: $type) ?>".</p>
         <?php else: ?>
             <?php foreach ($results as $pokemon): ?>
                 <div class="card">
-                    <a class="page" href="pokemon.php?id=<?php echo $pokemon['id']; ?>">
-                        <img src="<?php echo $pokemon['image']; ?>" alt="<?php echo $pokemon['name']; ?>"><br>
-                        <?php echo $pokemon['name']; ?><br>
+                    <a class="page" href="pokemon.php?id=<?= $pokemon['id'] ?>">
+                        <img src="<?= $pokemon['image'] ?>" alt="<?= $pokemon['name'] ?>">
+                        <br><?= $pokemon['name'] ?><br>
                     </a>
                 </div>
             <?php endforeach; ?>
@@ -106,50 +131,49 @@ if ($type && in_array($type, $typeNames)) {
     <?php if (!empty($results)): ?>
         <div class="section_btn" style="margin-bottom:20px;">
             <?php if ($page > 1): ?>
-                <a href="?<?php echo $type ? "type=$type" : "q=$query"; ?>&page=<?php echo $page - 1; ?>"><button style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Back</button></a>
+                <a href="?<?= $type ? "type=$type" : "q=$query" ?>&page=<?= $page - 1 ?>">
+                    <button style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Back</button>
+                </a>
             <?php endif; ?>
-            <h4 style="font-family: 'Press Start 2P', cursive;">Page <?php echo $page; ?></h4>
+            <h4 style="font-family: 'Press Start 2P', cursive;">Page <?= $page ?></h4>
             <?php if ($page < $totalPages): ?>
-                <a href="?<?php echo $type ? "type=$type" : "q=$query"; ?>&page=<?php echo $page + 1; ?>"><button style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Next</button></a>
+                <a href="?<?= $type ? "type=$type" : "q=$query" ?>&page=<?= $page + 1 ?>">
+                    <button style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Next</button>
+                </a>
             <?php endif; ?>
         </div>
     <?php endif; ?>
 </main>
 
 <script>
-    const form = document.querySelector(".search-bar");
     const loader = document.getElementById("loader");
-    
-    // Afficher le loader immédiatement au chargement de la page
-    document.addEventListener("DOMContentLoaded", () => {
-        loader.style.display = "flex";
-    });
 
-    // Afficher le loader lors de la soumission du formulaire
-    if (form) {
-        form.addEventListener("submit", () => {
+    const searchForm = document.querySelector("form.search-bar");
+    if (searchForm) {
+        searchForm.addEventListener("submit", (e) => {
+            const input = searchForm.querySelector("input[name='q']");
+            if (input && input.value.trim() === "") {
+                e.preventDefault();
+                alert("Veuillez entrer un nom de Pokémon.");
+                return;
+            }
             loader.style.display = "flex";
         });
     }
 
-    // Afficher le loader pour les liens de type
-    const typeLinks = document.querySelectorAll('.navbar .links a');
-    typeLinks.forEach(link => {
+    document.querySelectorAll('[data-loader="true"]').forEach(link => {
         link.addEventListener('click', () => {
             loader.style.display = "flex";
         });
     });
 
-    // Masquer le loader quand tout est chargé
     window.addEventListener("load", () => {
         setTimeout(() => {
             loader.style.display = "none";
-        }, 500); // Petit délai pour une transition plus fluide
+        }, 500);
     });
 </script>
-
 </body>
 </html>
-
 
 
