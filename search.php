@@ -80,16 +80,17 @@ if ($type && in_array($type, $typeNames)) {
 </head>
 <body>
 <!-- Loader -->
-<div id="loader">
-    <div class="spinner"></div>
+<div id="loader" style="display: none;">
+    <img src="loader.gif" alt="Chargement..." style="width: 100px;">
 </div>
+
 
 <?php include 'navbar.php'; ?>
 
 <main>
     <div class="list_card">
         <?php if (empty($results)): ?>
-            <p>Aucun résultat trouvé pour "<?php echo htmlspecialchars($query ?: $type); ?>".</p>
+            <p style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Aucun résultat trouvé pour "<?php echo htmlspecialchars($query ?: $type); ?>".</p>
         <?php else: ?>
             <?php foreach ($results as $pokemon): ?>
                 <div class="card">
@@ -102,14 +103,14 @@ if ($type && in_array($type, $typeNames)) {
         <?php endif; ?>
     </div>
 
-    <?php if (!empty($results) && $totalPages > 1): ?>
+    <?php if (!empty($results)): ?>
         <div class="section_btn" style="margin-bottom:20px;">
             <?php if ($page > 1): ?>
-                <a href="?<?php echo $type ? "type=$type" : "q=$query"; ?>&page=<?php echo $page - 1; ?>"><button>Back</button></a>
+                <a href="?<?php echo $type ? "type=$type" : "q=$query"; ?>&page=<?php echo $page - 1; ?>"><button style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Back</button></a>
             <?php endif; ?>
-            <h4>Page <?php echo $page; ?> / <?php echo $totalPages; ?></h4>
+            <h4 style="font-family: 'Press Start 2P', cursive;">Page <?php echo $page; ?></h4>
             <?php if ($page < $totalPages): ?>
-                <a href="?<?php echo $type ? "type=$type" : "q=$query"; ?>&page=<?php echo $page + 1; ?>"><button>Next</button></a>
+                <a href="?<?php echo $type ? "type=$type" : "q=$query"; ?>&page=<?php echo $page + 1; ?>"><button style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Next</button></a>
             <?php endif; ?>
         </div>
     <?php endif; ?>
@@ -118,11 +119,18 @@ if ($type && in_array($type, $typeNames)) {
 <script>
     const form = document.querySelector(".search-bar");
     const loader = document.getElementById("loader");
-
-    // Afficher le loader lors de la soumission du formulaire
-    form.addEventListener("submit", () => {
+    
+    // Afficher le loader immédiatement au chargement de la page
+    document.addEventListener("DOMContentLoaded", () => {
         loader.style.display = "flex";
     });
+
+    // Afficher le loader lors de la soumission du formulaire
+    if (form) {
+        form.addEventListener("submit", () => {
+            loader.style.display = "flex";
+        });
+    }
 
     // Afficher le loader pour les liens de type
     const typeLinks = document.querySelectorAll('.navbar .links a');
@@ -132,11 +140,14 @@ if ($type && in_array($type, $typeNames)) {
         });
     });
 
-    // Masquer le loader une fois la page chargée
+    // Masquer le loader quand tout est chargé
     window.addEventListener("load", () => {
-        loader.style.display = "none";
+        setTimeout(() => {
+            loader.style.display = "none";
+        }, 500); // Petit délai pour une transition plus fluide
     });
 </script>
+
 </body>
 </html>
 

@@ -62,11 +62,11 @@ $totalPages = ceil($totalResults / $limit);
 
     <div class="section_btn" style="color:black;">
         <?php if ($page > 1): ?>
-            <a href="?page=<?= $page - 1 ?>"><button>← Back</button></a>
+            <a href="?page=<?= $page - 1 ?>"><button style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">← Back</button></a>
         <?php endif; ?>
-        <span>Page <?= $page ?> / <?= $totalPages ?></span>
+        <span>Page <?= $page ?></span>
         <?php if ($page < $totalPages): ?>
-            <a href="?page=<?= $page + 1 ?>"><button>Next →</button></a>
+            <a href="?page=<?= $page + 1 ?>"><button style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Next →</button></a>
         <?php endif; ?>
     </div>
 </body>

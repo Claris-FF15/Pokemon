@@ -4,24 +4,24 @@
         <div class="links" style="display:flex; gap: 15px;">        
             <!-- Types -->
             <div class="dropdown">
-                <button class="dropbtn">Types  ▼</button>
+                <button class="dropbtn" style="font-size:13px !important;font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Types  ▼</button>
                 <div class="dropdown-content">
                     <?php
                     $types = json_decode(file_get_contents('https://pokeapi.co/api/v2/type'), true);
                     foreach ($types['results'] as $type) {
-                        echo '<a style="margin-top:5px; margin-bottom:5px;" href="search.php?type=' . $type['name'] . '">' . ucfirst($type['name']) . '</a>';
+                        echo '<a data-loader="true" style="margin-top:5px; margin-bottom:5px;" href="search.php?type=' . $type['name'] . '">' . ucfirst($type['name']) . '</a>';
                     }
                     ?>
                 </div>
             </div>
             <!-- Catégories  -->
             <div class="dropdown">
-                <button class="dropbtn">Catégories  ▼</button>
+                <button class="dropbtn" style="font-size:13px !important;font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Catégories  ▼</button>
                 <div class="dropdown-content">
-                    <a style="margin-top:5px;" href="shiny.php">Shiny</a>
-                    <a href="mega.php">Méga-Évolutions</a>
-                    <a href="mega_X.php">Méga X</a>
-                    <a style="margin-bottom:5px;"href="mega_Y.php">Méga Y</a> 
+                    <a data-loader="true" style="margin-top:5px; margin-bottom:5px;" href="shiny.php">Shiny</a>
+                    <a data-loader="true" style="margin-top:5px; margin-bottom:5px;" href="mega.php">Méga-Évolutions</a>
+                    <a data-loader="true" style="margin-top:5px; margin-bottom:5px;" href="mega_X.php">Méga X</a>
+                    <a data-loader="true" style="margin-top:5px; margin-bottom:5px;" href="mega_Y.php">Méga Y</a> 
                 </div>
             </div>
         </div>

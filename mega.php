@@ -22,7 +22,7 @@ function getPokemonDetails($url) {
 }
 
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-$limit = 4;
+$limit = 6;
 $offset = ($page - 1) * $limit;
 
 $allPokemon = getAllPokemon();
@@ -55,8 +55,9 @@ $totalPages = ceil($totalResults / $limit);
     <style>
         /* Grille pour la liste des cartes */
         .list_card {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Créer 3 colonnes égales */
+            display: flex;
+            justify-content: center;
+            grid-template-columns: repeat(3, 1fr); /* Créer 4 colonnes égales */
             gap: 20px; /* Espacement entre les cartes */
             margin-top: 20px;
         }
@@ -74,8 +75,8 @@ $totalPages = ceil($totalResults / $limit);
     <main>
         <div class="list_card">
             <?php foreach ($results as $pokemon): ?>
-                <div class="card" style="width:auto;">
-                        <img style="max-width:300px;"src="<?= $pokemon['image'] ?>" alt="<?= $pokemon['name'] ?>"><br>
+                <div class="card" style="width:300px;">
+                        <img style="max-width:250px;"src="<?= $pokemon['image'] ?>" alt="<?= $pokemon['name'] ?>"><br>
                         <?= $pokemon['name'] ?><br>
                 </div>
             <?php endforeach; ?>
@@ -83,11 +84,11 @@ $totalPages = ceil($totalResults / $limit);
 
         <div class="section_btn" style="margin-bottom:30px; color:black;">
             <?php if ($page > 1): ?>
-                <a href="?page=<?= $page - 1 ?>"><button>← Back</button></a>
+                <a href="?page=<?= $page - 1 ?>"><button style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">← Back</button></a>
             <?php endif; ?>
-            <h4>Page <?= $page ?> / <?= $totalPages ?></h4>
+            <h4 style="font-family: 'Press Start 2P';">Page <?= $page ?></h4>
             <?php if ($page < $totalPages): ?>
-                <a href="?page=<?= $page + 1 ?>"><button>Next →</button></a>
+                <a href="?page=<?= $page + 1 ?>"><button style="font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Next →</button></a>
             <?php endif; ?>
         </div>
     </main>    

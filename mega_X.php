@@ -51,7 +51,8 @@ $totalPages = ceil($totalResults / $limit);
     <style>
         /* Grille pour la liste des cartes */
         .list_card {
-            display: grid;
+            display: flex;
+            justify-content: center;
             grid-template-columns: repeat(2, 1fr); /* Créer 3 colonnes égales */
             gap: 20px; /* Espacement entre les cartes */
             margin-top: 20px;
@@ -70,14 +71,11 @@ $totalPages = ceil($totalResults / $limit);
     <main>
         <div class="list_card">
             <?php foreach ($results as $pokemon): ?>
-                <div class="card" style="width:auto;">
-                        <img style="max-width:300px;"src="<?= $pokemon['image'] ?>" alt="<?= $pokemon['name'] ?>"><br>
+                <div class="card" style="width:300px;">
+                        <img style="max-width:250px;"src="<?= $pokemon['image'] ?>" alt="<?= $pokemon['name'] ?>"><br>
                         <?= $pokemon['name'] ?><br>
                 </div>
             <?php endforeach; ?>
-        </div>
-        <div class="section_btn">
-            <a href='all.php?page=1'><button style="margin-top: 20px;color: white;background-color: red;">Back to Pokédex</button></a>
         </div>
     </main>
 </body>

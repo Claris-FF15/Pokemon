@@ -66,6 +66,7 @@ $evolutions = getEvolutions($evolutionData['chain']);
     <meta charset="UTF-8">
     <title>Pokémon: <?= $name ?></title>
     <link rel="icon" href="icon.png" type="image/png">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         body {
             background-image:url("back.png");
@@ -77,6 +78,10 @@ $evolutions = getEvolutions($evolutionData['chain']);
             font-family: 'Segoe UI', sans-serif;
             text-align: center;
             padding: 20px;
+        }
+        .section_btn {
+            display: flex;
+            justify-content: flex-end;
         }
         .card {
             background-color: rgba(8, 0, 0, 0.74);
@@ -108,7 +113,7 @@ $evolutions = getEvolutions($evolutionData['chain']);
             flex-wrap: wrap;
             justify-content: center;
             width: 100px;
-            height: 150px;
+            height: 160px;
         }
         button {
             padding: 8px 16px;
@@ -116,18 +121,27 @@ $evolutions = getEvolutions($evolutionData['chain']);
             margin-bottom: 10px;
             border-radius: 5px;
             cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            text-shadow: 2px 2px #000;
+        }
+        .text{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 5px;
         }
     </style>
 </head>
 <body>
     <header>
         <div class="section_btn">
-            <a href='all.php?page=1'><button style="margin-top: 20px;color: white;background-color: red;">Back to Pokédex</button></a>
+            <a href='all.php?page=1'><button style="color: white;background-color: red;">← Back to Pokédex</button></a>
         </div>
     </header>
-    <main〜>
+    <main>
     <div class="card" style="height: auto;width: 500px;">
-        <h1>N°<?= $id ?> - <?= ucfirst($name) ?></h1>
+        <h1 style="font-family: 'Press Start 2P';font-size:20px;">N°<?= $id ?>  <?= ucfirst($name) ?></h1>
         <img src="<?= $image ?>" alt="<?= $name ?>" width="200">
 <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
     <?php if ($id > 1): ?>
@@ -141,13 +155,13 @@ $evolutions = getEvolutions($evolutionData['chain']);
     </a>
 </div>
 
-        <p><strong>Types :</strong> <?= implode(", ", $types) ?></p>
-        <p><strong>height :</strong> <?= $pokemon['height'] / 10 ?> m</p>
-        <p><strong>weight :</strong> <?= $pokemon['weight'] / 10 ?> kg</p>
-        <p><strong>Description :</strong><br> <?= $description ?></p>
+        <p class="text"><strong style="font-family: 'Press Start 2P'; font-size:12px;">Types</strong> <?= implode(", ", $types) ?></p>
+        <p class="text"><strong style="font-family: 'Press Start 2P'; font-size:12px;">height</strong><?= $pokemon['height'] / 10 ?> m</p>
+        <p class="text"><strong style="font-family: 'Press Start 2P'; font-size:12px;">weight</strong><?= $pokemon['weight'] / 10 ?> kg</p>
+        <p class="text"><strong style="font-family: 'Press Start 2P'; font-size:12px;">Description</strong> <?= $description ?></p>
 
         <div class="stats">
-            <h3>Stats</h3>
+            <h3 style="font-family: 'Press Start 2P'; font-size:12px;">Stats</h3>
             <?php foreach ($stats as $stat): ?>
                 <div>
                     <?= ucfirst($stat['stat']['name']) ?>: <?= $stat['base_stat'] ?>
@@ -156,7 +170,7 @@ $evolutions = getEvolutions($evolutionData['chain']);
         </div>
     </div>
 
-    <h2>Évolutions</h2>
+    <h2 style="font-size:20px !important;font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Evolutions</h2>
     <div class="evo-chain">
             <?php foreach ($evolutions as $evo): ?>
             <?php
@@ -172,19 +186,20 @@ $evolutions = getEvolutions($evolutionData['chain']);
             <div class="evo-card">
                 <a href="pokemon.php?id=<?= $evo['id'] ?>&lang=<?= $lang ?>" style="color: white; text-decoration: none;">
                     <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<?= $evo['id'] ?>.png" width="100">
-                    <p><?= ucfirst($evoName) ?></p>
+                    <p style="font-family: 'Press Start 2P'; font-size: 10px;"><?= ucfirst($evoName) ?></p>
                     <?php if ($evo['level'] !== null): ?>
-                        <p style="font-size: 14px;">LVL : <?= $evo['level'] ?></p>
+                        <p style="font-size: 14px;">LVL  <?= $evo['level'] ?></p>
                     <?php endif; ?>
                 </a>
             </div>
         <?php endforeach; ?>
     </div>
-    <h2>Shiny</h2>
+    <h2 style="font-size:20px !important;font-family: 'Press Start 2P', cursive;text-shadow: 2px 2px #000;">Shiny</h2>
     <div class="shiny-chain">
     <div class="shiny-card">
-        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/<?= $id ?>.png" alt="<?= $name ?> Shiny" width="200">
-        <p><?= ucfirst($name) ?></p>
+        <a href="pokemon.php?id=<?= $evo['id'] ?>&lang=<?= $lang ?>" style="color: white; text-decoration: none;">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/<?= $id ?>.png" alt="<?= $name ?> Shiny" width="120">
+        <p style="font-family: 'Press Start 2P'; font-size: 10px;"><?= ucfirst($name) ?></p></a>
     </div>
     </div>
 </main>
